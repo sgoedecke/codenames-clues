@@ -13,11 +13,11 @@ func main() {
 	var index map[string][]string
 
 	if fileExists("index") {
-		fmt.Println("Reading index from file...")
+		fmt.Println("Loading index from file...")
 		data, _ := ioutil.ReadFile("index")
 		d := gob.NewDecoder(bytes.NewBuffer(data))
 		d.Decode(&index)
-		fmt.Println("Index read!")
+		fmt.Println("Index loaded!")
 	} else {
 		// build and serialize index to file
 		sourceFiles, _ := filepath.Glob("./text/*")
