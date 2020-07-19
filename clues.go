@@ -19,6 +19,8 @@ func buildIndex(filePaths []string) map[string][]string {
 
 	fmt.Println("Building index...")
 
+	commonWords := []string{"by", "of", "for", "in", "and", "is", "from", "was", "the", "a", "an", "into", "as", "but", "with", "to", "who", "which", "out", "also", "each", "where", "than", "has", "that", "not", "on", "so", "no", "its", "would", "may", "began", "became", "gave", "till", "other", "his", "one", "two", "upon", "during", "it", "then", "after", "many", "de", "et", "came", "be", "there", "are", "all", "their", "went", "were", "some", "any", "very"}
+
 	blocks := strings.Split(data, "\n")
 	for _, block := range blocks {
 		words := strings.Split(block, " ")
@@ -28,6 +30,11 @@ func buildIndex(filePaths []string) map[string][]string {
 			re := regexp.MustCompile(`[^A-Za-z]+`)
 			word = re.ReplaceAllString(word, "")
 			word = strings.ToLower(word)
+
+            if contains(commonWords, word) {
+              fmt.Println("Skipping...")
+              continue
+            }
 
 			if index[word] == nil {
 				index[word] = make([]string, 0)
@@ -53,14 +60,5 @@ func generateClues(index map[string][]string, args []string) []string {
 		clues = intersections(clues, index[arg])
 	}
 
-	commonWords := []string{"by", "of", "for", "in", "and", "is", "from", "was", "the", "a", "an", "into", "as", "but", "with", "to", "who", "which", "out", "also", "each", "where", "than", "has", "that", "not", "on", "so", "no", "its", "would", "may", "began", "became", "gave", "till", "other", "his", "one", "two", "upon", "during", "it", "then", "after", "many", "de", "et", "came", "be"}
-
-	filteredClues := []string{}
-	for _, clue := range clues {
-		if !contains(commonWords, clue) {
-			filteredClues = append(filteredClues, clue)
-		}
-	}
-
-	return filteredClues
+	return clues
 }
