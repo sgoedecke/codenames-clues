@@ -19,7 +19,7 @@ func buildIndex(filePaths []string) map[string][]string {
 
 	fmt.Println("Building index...")
 
-	commonWords := []string{"by", "of", "for", "in", "and", "is", "from", "was", "the", "a", "an", "into", "as", "but", "with", "to", "who", "which", "out", "also", "each", "where", "than", "has", "that", "not", "on", "so", "no", "its", "would", "may", "began", "became", "gave", "till", "other", "his", "one", "two", "upon", "during", "it", "then", "after", "many", "de", "et", "came", "be", "there", "are", "all", "their", "went", "were", "some", "any", "very"}
+	commonWords := []string{"by", "of", "for", "in", "and", "is", "from", "was", "the", "a", "an", "into", "as", "but", "with", "to", "who", "which", "out", "also", "each", "where", "than", "has", "that", "not", "on", "so", "no", "its", "would", "may", "began", "became", "gave", "till", "other", "his", "one", "two", "upon", "during", "it", "then", "after", "many", "de", "et", "came", "be", "there", "are", "all", "their", "went", "were", "some", "any", "very", "they", "when", "this", "again", "himself", "him", "her", "herself", "or"}
 
 	blocks := strings.Split(data, "\n")
 	for _, block := range blocks {
@@ -62,5 +62,13 @@ func generateClues(index map[string][]string, args []string) []string {
 		clues = intersections(clues, index[arg])
 	}
 
-	return clues
+    filteredClues := []string{}
+
+    for _, clue := range clues {
+      if !contains(args, clue) {
+        filteredClues = append(filteredClues, clue)
+      }
+    }
+
+	return filteredClues
 }
