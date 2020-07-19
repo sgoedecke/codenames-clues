@@ -11,7 +11,7 @@ func buildIndex(filePaths []string) map[string][]string {
 	// build index
 	index := make(map[string][]string)
 	data := ""
-    fmt.Println("Scanning files...")
+	fmt.Println("Scanning files...")
 	for _, path := range filePaths {
 		dat, _ := ioutil.ReadFile(path)
 		data = data + string(dat)
@@ -31,10 +31,9 @@ func buildIndex(filePaths []string) map[string][]string {
 			word = re.ReplaceAllString(word, "")
 			word = strings.ToLower(word)
 
-            if contains(commonWords, word) {
-              fmt.Println("Skipping...")
-              continue
-            }
+			if contains(commonWords, word) {
+				continue
+			}
 
 			if index[word] == nil {
 				index[word] = make([]string, 0)
@@ -43,6 +42,9 @@ func buildIndex(filePaths []string) map[string][]string {
 			for _, w := range words {
 				w = re.ReplaceAllString(w, "")
 				w = strings.ToLower(w)
+				if contains(commonWords, w) {
+					continue
+				}
 				index[word] = append(index[word], w)
 			}
 		}
