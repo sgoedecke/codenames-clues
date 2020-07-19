@@ -5,22 +5,25 @@ import (
 	"encoding/gob"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 )
 
 func main() {
 	var index map[string][]string
-	b := new(bytes.Buffer)
 
 	if fileExists("index") {
-		// read index from file
-		d := gob.NewDecoder(b)
+		fmt.Println("Reading index from file...")
+		data, _ := ioutil.ReadFile("index")
+		d := gob.NewDecoder(bytes.NewBuffer(data))
 		d.Decode(&index)
+		fmt.Println("Index read!")
 	} else {
 		// build and serialize index to file
 		sourceFiles, _ := filepath.Glob("./text/*")
 		index = buildIndex(sourceFiles)
 
+		b := new(bytes.Buffer)
 		e := gob.NewEncoder(b)
 		e.Encode(index)
 

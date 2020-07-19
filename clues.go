@@ -11,8 +11,8 @@ func buildIndex(filePaths []string) map[string][]string {
 	// build index
 	index := make(map[string][]string)
 	data := ""
+    fmt.Println("Scanning files...")
 	for _, path := range filePaths {
-		fmt.Println("Scanning file: " + path)
 		dat, _ := ioutil.ReadFile(path)
 		data = data + string(dat)
 	}
