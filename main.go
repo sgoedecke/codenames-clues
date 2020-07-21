@@ -5,8 +5,9 @@ import (
 	"encoding/gob"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path/filepath"
+    "flag"
+    "strings"
 )
 
 func main() {
@@ -30,6 +31,10 @@ func main() {
 		ioutil.WriteFile("index", b.Bytes(), 0644)
 	}
 
-	clues := generateClues(index, os.Args[1:])
+    wordsPtr := flag.String("w", "", "words to guess, comma separated")
+    avoidPtr := flag.String("a", "", "words to avoid, comma separated")
+    flag.Parse()
+
+	clues := solve(index, strings.Split(*wordsPtr, ","), strings.Split(*avoidPtr, ","))
 	fmt.Println(clues)
 }
